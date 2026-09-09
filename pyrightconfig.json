@@ -1,0 +1,14 @@
+{
+  "include": [
+    ".",
+    "ml-service",
+    "ml-training",
+    "tests"
+  ],
+  "extraPaths": [
+    "./ml-service",
+    "./ml-training"
+  ],
+  "reportMissingImports": "none",
+  "reportMissingModuleSource": "none"
+}

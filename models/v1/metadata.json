@@ -1,0 +1,95 @@
+{
+  "model_version": "phishing-hybrid-v1.0.0",
+  "model_name": "Logistic Regression",
+  "training_date": "2026-09-09 16:40:54 UTC",
+  "dataset": {
+    "total_samples": 5455,
+    "train_samples": 3818,
+    "val_samples": 818,
+    "test_samples": 819
+  },
+  "feature_count": 41,
+  "selected_features": [
+    "url_length",
+    "hostname_length",
+    "path_length",
+    "query_length",
+    "fragment_length",
+    "domain_length",
+    "num_digits",
+    "num_letters",
+    "num_special_chars",
+    "digit_ratio",
+    "special_ratio",
+    "dot_count",
+    "hyphen_count",
+    "underscore_count",
+    "slash_count",
+    "question_mark_count",
+    "equal_count",
+    "at_count",
+    "ampersand_count",
+    "percent_count",
+    "colon_count",
+    "semicolon_count",
+    "comma_count",
+    "tilde_count",
+    "double_slash_count",
+    "num_subdomains",
+    "path_depth",
+    "num_query_params",
+    "has_ip_address",
+    "is_https",
+    "has_custom_port",
+    "has_at_symbol",
+    "is_shortened",
+    "has_suspicious_tld",
+    "has_suspicious_keyword",
+    "suspicious_keyword_count",
+    "hyphen_in_hostname",
+    "has_prefix_suffix",
+    "is_encoded",
+    "url_entropy",
+    "hostname_entropy"
+  ],
+  "metrics": {
+    "model": "Logistic Regression",
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "specificity": 1.0,
+    "f1": 1.0,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "true_positives": 420,
+    "true_negatives": 399,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "latency_ms_per_sample": 0.001,
+    "cv_f1_mean": 0.9997,
+    "cv_f1_std": 0.0005,
+    "cv_roc_auc_mean": 1.0,
+    "cv_recall_mean": 0.9995
+  },
+  "risk_thresholds": {
+    "LOW": [
+      0.0,
+      0.29
+    ],
+    "MEDIUM": [
+      0.3,
+      0.59
+    ],
+    "HIGH": [
+      0.6,
+      0.79
+    ],
+    "CRITICAL": [
+      0.8,
+      1.0
+    ]
+  },
+  "pipeline_version": "1.0.0"
+}
