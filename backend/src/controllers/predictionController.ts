@@ -9,12 +9,15 @@ import { logger } from "../utils/logger.js";
 export const scanUrl = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const validated = ScanUrlSchema.parse(req.body);
-    const userId = req.userId || null;
+    if (!req.userId) {
+      throw new AppError("Please log in before scanning a URL.", 401, "UNAUTHORIZED");
+    }
+    const userId = req.userId;
 
     // Call ML Microservice
     const mlResponse = await mlClient.predict(validated.url);
 
-    // Persist prediction in DB (safe non-blocking if mongo down)
+    // Persist prediction so it is available in the user's scan history.
     let savedDoc = null;
     try {
       savedDoc = await Prediction.create({
@@ -33,6 +36,11 @@ export const scanUrl = async (req: AuthRequest, res: Response, next: NextFunctio
       });
     } catch (dbErr: any) {
       logger.warn(`Could not save prediction to MongoDB: ${dbErr.message}`);
+      throw new AppError(
+        "The scan completed, but the result could not be saved to your history. Please try again.",
+        503,
+        "HISTORY_UNAVAILABLE"
+      );
     }
 
     res.status(200).json({
@@ -75,14 +83,14 @@ export const scanBatch = async (req: AuthRequest, res: Response, next: NextFunct
 
 export const getPredictions = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
+    if (!req.userId) {
+      throw new AppError("Please log in to view scan history.", 401, "UNAUTHORIZED");
+    }
     const page = Math.max(1, parseInt(req.query.page as string) || 1);
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20));
     const skip = (page - 1) * limit;
 
-    const query: any = {};
-    if (req.userId) {
-      query.userId = req.userId;
-    }
+    const query: any = { userId: req.userId };
 
     if (req.query.riskLevel) {
       query.riskLevel = (req.query.riskLevel as string).toUpperCase();
@@ -106,6 +114,11 @@ export const getPredictions = async (req: AuthRequest, res: Response, next: Next
       ]);
     } catch (e) {
       logger.warn("Could not query MongoDB for prediction history.");
+      throw new AppError(
+        "Scan history is temporarily unavailable. Please try again.",
+        503,
+        "HISTORY_UNAVAILABLE"
+      );
     }
 
     res.status(200).json({
@@ -127,7 +140,11 @@ export const getPredictions = async (req: AuthRequest, res: Response, next: Next
 
 export const getPredictionById = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const item = await Prediction.findById(req.params.id);
+    if (!req.userId) {
+      throw new AppError("Please log in to view scan history.", 401, "UNAUTHORIZED");
+    }
+
+    const item = await Prediction.findOne({ _id: req.params.id, userId: req.userId });
     if (!item) {
       throw new AppError("Prediction record not found.", 404, "NOT_FOUND");
     }
@@ -143,12 +160,16 @@ export const getPredictionById = async (req: AuthRequest, res: Response, next: N
 
 export const deletePrediction = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const item = await Prediction.findById(req.params.id);
+    if (!req.userId) {
+      throw new AppError("Please log in to manage scan history.", 401, "UNAUTHORIZED");
+    }
+
+    const item = await Prediction.findOne({ _id: req.params.id, userId: req.userId });
     if (!item) {
       throw new AppError("Prediction record not found.", 404, "NOT_FOUND");
     }
 
-    await Prediction.findByIdAndDelete(req.params.id);
+    await Prediction.deleteOne({ _id: req.params.id, userId: req.userId });
 
     res.status(200).json({
       success: true,

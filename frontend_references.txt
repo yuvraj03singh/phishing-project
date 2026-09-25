@@ -1,0 +1,148 @@
+FRONTEND REFERENCE LIST
+
+This file contains the formal references for the frontend technologies used in this project.
+
+1. React Team. React Documentation. Meta. Available at: https://react.dev
+2. React Team. React 18 Documentation and API Reference. Meta. 2024.
+3. React Router. React Router Documentation. Available at: https://reactrouter.com
+4. Microsoft. TypeScript Language Reference. Available at: https://www.typescriptlang.org/docs
+5. Microsoft. TypeScript Handbook. Available at: https://www.typescriptlang.org/docs/handbook/intro-to-ts.html
+6. Vite Contributors. Vite Documentation. Available at: https://vite.dev
+7. Vite Contributors. Getting Started with Vite. Vite Docs. Available at: https://vite.dev/guide
+8. Tailwind CSS. Tailwind CSS Documentation. Available at: https://tailwindcss.com/docs
+9. Tailwind Labs. Tailwind CSS Framework Documentation. 2024.
+10. Axios Contributors. Axios Documentation. Available at: https://axios-http.com/docs/intro
+11. Axios Contributors. Axios: Promise based HTTP client for the browser and node.js. GitHub repository. Available at: https://github.com/axios/axios
+12. Recharts Contributors. Recharts Documentation. Available at: https://recharts.org
+13. Recharts Contributors. Recharts - Redefined chart library built with React and D3. GitHub repository. Available at: https://github.com/recharts/recharts
+14. Lucide Contributors. Lucide Icons Documentation. Available at: https://lucide.dev
+15. clsx Contributors. clsx Documentation. Available at: https://github.com/lukeed/clsx
+16. tailwind-merge Contributors. tailwind-merge Documentation. Available at: https://github.com/dcastil/tailwind-merge
+17. Zod Contributors. Zod Documentation. Available at: https://zod.dev
+18. react-hook-form Contributors. react-hook-form Documentation. Available at: https://react-hook-form.com
+19. React Team. Forms in React. Official React documentation. Available at: https://react.dev/learn/managing-state
+20. Project README. Phishing Detection System Through Hybrid ML Based on URL. Available at: README.md
+21. Project frontend package configuration. frontend/package.json
+22. Project frontend application entry. frontend/src/App.tsx
+
+PROJECT-SPECIFIC REFERENCES
+- README.md - project overview and architecture
+- frontend/package.json - dependency and toolchain details
+- frontend/src/App.tsx - routing and main app structure
+- frontend/src/pages - application pages
+- frontend/src/components - reusable UI components
+- frontend/src/context/AuthContext.tsx - authentication context
+
+NOTE
+These references correspond to the actual frontend technology stack used in this project: React, TypeScript, Vite, Tailwind CSS, React Router, Axios, Recharts, and related libraries.
+
+
+TECHNICAL FRONTEND VIVA QUESTIONS AND ANSWERS
+
+1. Q: Why did you choose React for the frontend?
+A: React is component-based, reusable, and efficient for building interactive user interfaces. It updates only the changed parts of the DOM using a virtual DOM, which makes it suitable for a dashboard and scanner application.
+
+2. Q: Why use TypeScript in this project?
+A: TypeScript adds static typing, which reduces runtime errors and improves code quality. In this project, it helps define API response shapes, user data, and UI state more safely.
+
+3. Q: What is Vite and why is it used?
+A: Vite is a modern frontend build tool that provides fast development startup and efficient production builds. It is used here because the app includes multiple pages and components but needs quick refresh and build performance.
+
+4. Q: What is the role of React Router in your project?
+A: React Router is used to navigate between pages like landing page, scanner, dashboard, model info, history, login, and register. It enables single-page application navigation without full page reloads.
+
+5. Q: How is your app structured?
+A: The app is structured into pages, components, services, context, and types. The main application is in frontend/src/App.tsx, and each page is separated into its own file for maintainability.
+
+6. Q: What is the purpose of AuthContext in this app?
+A: AuthContext manages authentication state like the logged-in user, JWT token, and loading state. It allows components across the app to access user information without passing props through every level.
+
+7. Q: How is login and token storage handled?
+A: The token is stored in localStorage after login, and AuthContext reads it on app load. The API service also attaches the token in the Authorization header for authenticated requests.
+
+8. Q: What is Axios and why is it used?
+A: Axios is a promise-based HTTP client used to call backend APIs. It simplifies requests, supports interceptors, and allows centralized handling of authentication and errors.
+
+9. Q: What are API interceptors used for here?
+A: Interceptors are used to attach the bearer token to every request and to format backend errors into cleaner frontend messages. This keeps the code cleaner and consistent.
+
+10. Q: How does your frontend communicate with the backend?
+A: The frontend uses api.ts under frontend/src/services to connect to /api routes. Requests such as login, prediction, and history data are submitted from pages like ScannerPage and DashboardPage.
+
+11. Q: Why did you use Tailwind CSS?
+A: Tailwind CSS helps build modern UI quickly using utility classes. It makes the design consistent and reduces the need to write large CSS files. It is suitable for dashboards and cyber-security themed UI.
+
+12. Q: What is the purpose of a component in React?
+A: A component is a reusable, independent UI block. For example, Navbar, Footer, ScoreGauge, RiskBadge, and ExplanationsCard are components that are reused across the application.
+
+13. Q: What is state in React? Give example from your app.
+A: State is data that can change during the lifecycle of a component. In this project, URL input, scanning status, prediction result, and error messages are stored in state within the scanner page.
+
+14. Q: How does the scanner page work technically?
+A: The scanner page accepts a URL from the user, calls the backend prediction API, waits for the response, updates the state, and then renders the verdict, score, and explanation cards.
+
+15. Q: What happens when a request fails in the frontend?
+A: The axios response interceptor catches the error and converts it into a user-friendly message. The page then displays that message so the user knows what went wrong without exposing raw backend error details.
+
+16. Q: Why is localStorage used for token persistence?
+A: It keeps the user logged in even after page refresh. The application loads the saved token and rechecks the user session through /auth/me.
+
+17. Q: How is authentication flow implemented in the frontend?
+A: On login, the app stores the JWT token in localStorage and updates the AuthContext. On reload, the app checks the stored token and calls the backend user endpoint to restore session state.
+
+18. Q: What is the benefit of using context API instead of prop drilling?
+A: It reduces the complexity of passing data across nested components. It is useful for global state such as authentication and user profile information.
+
+19. Q: What are the main pages of your frontend?
+A: Landing page, scanner page, batch scanner page, dashboard, history page, model info page, research page, login page, and register page. These pages are connected through routes using React Router.
+
+20. Q: What is the significance of the risk score and dashboard in the app?
+A: The frontend visualizes security analysis results to make risk understandable for users. Charts, badges, and metrics help interpret whether a URL is phishing, suspicious, or legitimate.
+
+21. Q: What is the difference between controlled and uncontrolled components?
+A: In this app, the input fields are controlled components because their values are stored in React state and updated on every change. This allows validation and dynamic UI updates.
+
+22. Q: Why is error handling important in a frontend application?
+A: Users need clear feedback when API requests fail. Proper error handling improves usability, trust, and debugging, especially in security-focused applications.
+
+23. Q: What are the key frontend challenges in this project?
+A: Managing API responses, token-based authentication, dynamic route updates, responsive design, and presenting prediction results clearly are the most important frontend challenges.
+
+24. Q: How would you improve this frontend further?
+A: I would add protected routes, better loading states, form validation, error boundaries, caching for dashboard data, and a more scalable state management system if the app grows larger.
+
+25. Q: Why is this frontend considered modern and production-ready?
+A: Because it uses React, TypeScript, Vite, modular components, API interceptors, authentication context, responsive layout, and clean separation of responsibilities.
+
+
+SHORT ANSWER VERSION FOR VIVA
+
+Q: What technology stack is used in the frontend?
+A: React, TypeScript, Vite, Tailwind CSS, React Router, Axios, Recharts, and Lucide icons.
+
+Q: Why use React?
+A: Because it is component-based, reusable, and efficient for building interactive UIs.
+
+Q: Why TypeScript?
+A: It improves reliability and catches type-related issues early.
+
+Q: How is auth handled?
+A: JWT token stored in localStorage and attached via Axios interceptor.
+
+Q: What is the main purpose of the project frontend?
+A: To scan URLs, display risk results, show explanations, and provide a user-friendly interface for cybersecurity analysis.
+
+Q: What do you mean by component-based architecture?
+A: The UI is divided into reusable modules like Navbar, Footer, ScoreGauge, RiskBadge, etc.
+
+Q: How is the app navigated?
+A: Through React Router using routes defined in App.tsx.
+
+Q: Why use Tailwind CSS?
+A: For fast, consistent, responsive UI development.
+
+Q: What is the role of Axios in your app?
+A: It handles HTTP calls to the backend API and shares common headers and error logic.
+
+Q: What would you improve next?
+A: Add route protection, better validation, global state optimization, and testing.

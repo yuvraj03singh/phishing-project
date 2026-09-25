@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Shield, Lock, Mail, User as UserIcon, ArrowRight } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Shield, Lock, Mail, User as UserIcon, ArrowRight } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import api from "../services/api";
 
 export const RegisterPage: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,20 +17,25 @@ export const RegisterPage: React.FC = () => {
     e.preventDefault();
     if (!name || !email || !password) return;
 
+    if (!email.trim().toLowerCase().endsWith("@gmail.com")) {
+      setErrorMsg("Please enter an appropriate Gmail address.");
+      return;
+    }
+
     if (password.length < 8) {
-      setErrorMsg('Password must be at least 8 characters long.');
+      setErrorMsg("Password must be at least 8 characters long.");
       return;
     }
 
     setIsLoading(true);
-    setErrorMsg('');
+    setErrorMsg("");
 
     try {
-      const res = await api.post('/auth/register', { name, email, password });
+      const res = await api.post("/auth/register", { name, email, password });
       login(res.data.data.token, res.data.data.user);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (err: any) {
-      setErrorMsg(err.message || 'Registration failed.');
+      setErrorMsg(err.message || "Registration failed.");
     } finally {
       setIsLoading(false);
     }
@@ -53,9 +58,14 @@ export const RegisterPage: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs text-slate-300 font-semibold uppercase">Full Name</label>
+            <label className="text-xs text-slate-300 font-semibold uppercase">
+              Full Name
+            </label>
             <div className="relative">
-              <UserIcon className="absolute left-3 top-3 text-slate-400" size={16} />
+              <UserIcon
+                className="absolute left-3 top-3 text-slate-400"
+                size={16}
+              />
               <input
                 type="text"
                 required
@@ -68,24 +78,34 @@ export const RegisterPage: React.FC = () => {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-slate-300 font-semibold uppercase">Email Address</label>
+            <label className="text-xs text-slate-300 font-semibold uppercase">
+              Email Address
+            </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 text-slate-400" size={16} />
+              <Mail
+                className="absolute left-3 top-3 text-slate-400"
+                size={16}
+              />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="analyst@domain.com"
+                placeholder="analyst@gmail.com"
                 className="w-full pl-9 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 text-xs focus:outline-none focus:border-blue-500 font-mono"
               />
             </div>
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-slate-300 font-semibold uppercase">Password</label>
+            <label className="text-xs text-slate-300 font-semibold uppercase">
+              Password
+            </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 text-slate-400" size={16} />
+              <Lock
+                className="absolute left-3 top-3 text-slate-400"
+                size={16}
+              />
               <input
                 type="password"
                 required
@@ -121,7 +141,10 @@ export const RegisterPage: React.FC = () => {
 
         <div className="text-center text-xs text-slate-400 pt-2 border-t border-slate-800">
           <span>Already have an account? </span>
-          <Link to="/login" className="text-blue-400 hover:text-blue-300 font-semibold">
+          <Link
+            to="/login"
+            className="text-blue-400 hover:text-blue-300 font-semibold"
+          >
             Sign In
           </Link>
         </div>

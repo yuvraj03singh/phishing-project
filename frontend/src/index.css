@@ -3,30 +3,71 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
   body {
-    @apply bg-[#0a0f1d] text-slate-100 min-h-screen antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply bg-slate-50 text-slate-800 min-h-screen antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-image:
+      radial-gradient(circle at 8% 8%, rgba(96, 165, 250, 0.2), transparent 28%),
+      radial-gradient(circle at 92% 82%, rgba(52, 211, 153, 0.16), transparent 30%),
+      linear-gradient(180deg, #f8fbff 0%, #f8fafc 48%, #f7fcf9 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
   }
 }
 
-/* Custom Cyber Aesthetics */
+/* Keep the interface practical and readable instead of decorative. */
+.site-header {
+  border-bottom: 1px solid #dbeafe;
+}
+
 .glass-panel {
-  background: rgba(17, 24, 39, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .glass-panel-glow {
-  background: rgba(17, 24, 39, 0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06);
+}
+
+.feature-card-blue {
+  background: #f8fbff;
+  border-top: 3px solid #60a5fa;
+}
+
+.feature-card-cyan {
+  background: #f4fdff;
+  border-top: 3px solid #22d3ee;
+}
+
+.feature-card-green {
+  background: #f5fdf9;
+  border-top: 3px solid #34d399;
+}
+
+.cta-panel {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.cta-panel h2 {
+  color: #1d4ed8;
+}
+
+.cta-panel p {
+  color: #475569;
 }
 
 .cyber-gradient-text {
-  background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #2563eb;
 }
 
 .danger-gradient-text {
@@ -41,22 +82,39 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Radar Pulse Animation */
-@keyframes radar-pulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.4;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 0.8;
-  }
+/* Existing pages use these utility classes heavily; soften them consistently. */
+[class~="font-mono"] {
+  font-family: inherit !important;
 }
 
-.animate-radar {
-  animation: radar-pulse 3s infinite ease-in-out;
+[class~="bg-slate-950"], [class~="bg-slate-900"] {
+  background-color: #f8fafc !important;
+}
+
+[class~="bg-slate-800"] {
+  background-color: #f1f5f9 !important;
+}
+
+[class~="text-slate-100"], [class~="text-slate-200"], [class~="text-slate-300"], [class~="text-white"] {
+  color: #1e293b !important;
+}
+
+[class~="text-slate-400"] {
+  color: #64748b !important;
+}
+
+button[class~="text-white"], a[class~="text-white"] {
+  color: #ffffff !important;
+}
+
+[class~="border-slate-800"], [class~="border-slate-700"] {
+  border-color: #e2e8f0 !important;
+}
+
+[class~="rounded-2xl"], [class~="rounded-3xl"] {
+  border-radius: 0.5rem !important;
+}
+
+[class~="shadow-lg"], [class~="shadow-inner"] {
+  box-shadow: none !important;
 }

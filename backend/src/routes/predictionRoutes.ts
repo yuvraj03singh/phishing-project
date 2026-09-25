@@ -11,10 +11,10 @@ import { predictionLimiter, batchPredictionLimiter } from "../middleware/rateLim
 
 const router = Router();
 
-router.post("/", predictionLimiter, optionalAuth, scanUrl);
+router.post("/", predictionLimiter, authenticate, scanUrl);
 router.post("/batch", batchPredictionLimiter, optionalAuth, scanBatch);
-router.get("/", optionalAuth, getPredictions);
-router.get("/:id", optionalAuth, getPredictionById);
+router.get("/", authenticate, getPredictions);
+router.get("/:id", authenticate, getPredictionById);
 router.delete("/:id", authenticate, deletePrediction);
 
 export default router;
